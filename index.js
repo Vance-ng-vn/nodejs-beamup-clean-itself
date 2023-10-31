@@ -1,1 +1,1 @@
-Console.log("Clean project...");
+console.log("Clean project...");
