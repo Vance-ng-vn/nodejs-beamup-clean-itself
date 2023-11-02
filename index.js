@@ -13,26 +13,26 @@ const server = app.listen(process.env.PORT || 5000, ()=>{
 
 function deleteFolderRecursive(folderPath) {
     if (fs.existsSync(folderPath)) {
-      fs.readdirSync(folderPath).forEach((file) => {
-        const filePath = path.join(folderPath, file);
-  
-        if (fs.lstatSync(filePath).isFile()) {
-            console.log("deleting file: " + filePath);
-            fs.unlinkSync(filePath);
-        } else {
-            if(filePath == '/app') return;
-            console.log("deleting folder: " + filePath);    
-            try {
-                deleteFolderRecursive(filePath);
-            }
-            catch(err){
+        fs.readdirSync(folderPath).forEach((file) => {
+            const filePath = path.join(folderPath, file);
+    
+            if (fs.lstatSync(filePath).isFile()) {
+                console.log("deleting file: " + filePath);
                 fs.unlinkSync(filePath);
-                console.log("[ERROR] Cant delete this file: " + filePath);
+            } else {
+                console.log("deleting folder: " + filePath);    
+                try {
+                    deleteFolderRecursive(filePath);
+                }
+                catch(err){
+                    fs.unlinkSync(filePath);
+                    console.log("[ERROR] Cant delete this file: " + filePath);
+                }
             }
-        }
-      });
+        });
   
-      fs.rmdirSync(folderPath);
+        if(folderPath != '/app')
+            fs.rmdirSync(folderPath);
     }
 }
 
