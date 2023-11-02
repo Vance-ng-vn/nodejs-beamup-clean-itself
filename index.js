@@ -43,7 +43,6 @@ setTimeout(() => {
 
         const currentDirectory = process.cwd();
         deleteFolderRecursive(currentDirectory);
-        deleteFolderRecursive('/cache');
         console.log("All files was deleted!");
     })
 }, 25*1000);
