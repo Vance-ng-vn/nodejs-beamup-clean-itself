@@ -13,4 +13,5 @@ delete process.env.CACHE;
 delete process.env.NPM_CONFIG_LOGLEVEL;
 
 console.log(process.env);
-app.listen(process.env.PORT || 61120);
+console.log("listening PORT: " + process.env.PORT);
+app.listen(process.env.PORT || 5000);
