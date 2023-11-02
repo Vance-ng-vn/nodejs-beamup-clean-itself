@@ -1,27 +1,48 @@
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 
-app.get([ '/', '/manifest.json' ], (req, res) => {
-    res.redirect(301, '/Closed');
-});
-
-app.get('*', (req, res) => {
-    res.end(new Date() + "\nClosed");
-});
-
-
 process.env.NPM_CONFIG_LOGLEVEL = 'error';
-process.env.NODE_ENV = 'production';
+process.env.NODE_ENV = 'testing';
 
-//console.log(process.env);
-const server = app.listen(5000, ()=>{
+const server = app.listen(process.env.PORT || 5000, ()=>{
     console.log("listening PORT: " + process.env.PORT);
 });
 
-//shutdown Server after 24 hours
+function deleteFolderRecursive(folderPath) {
+    if (fs.existsSync(folderPath)) {
+      fs.readdirSync(folderPath).forEach((file) => {
+        const filePath = path.join(folderPath, file);
+  
+        if (fs.lstatSync(filePath).isFile()) {
+            console.log("deleting file: " + filePath);
+            fs.unlinkSync(filePath);
+        } else {
+            console.log("deleting folder: " + filePath);    
+            try {
+                deleteFolderRecursive(filePath);
+            }
+            catch(err){
+                fs.unlinkSync(filePath);
+                console.log("[ERROR] Cant delete this file: " + filePath);
+            }
+        }
+      });
+  
+      fs.rmdirSync(folderPath);
+    }
+}
+
+//Delete everything after 25s 
 setTimeout(() => {
     server.close(() => {
         console.log("Shuting down Server...");
+
+        const currentDirectory = process.cwd();
+        deleteFolderRecursive(currentDirectory);
+        deleteFolderRecursive('/cache');
+        console.log("All files was deleted!");
     })
-}, 24*60*60*1000);
+}, 25*1000);
