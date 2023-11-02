@@ -7,5 +7,10 @@ app.get('*', (req, res) => {
 });
 
 
+//delete
+delete process.env.PORT;
+delete process.env.CACHE;
+delete process.env.NPM_CONFIG_LOGLEVEL;
+
 console.log(process.env);
 app.listen(process.env.PORT || 61120);
