@@ -4,9 +4,6 @@ const path = require('path');
 
 const app = express();
 
-process.env.NPM_CONFIG_LOGLEVEL = 'error';
-process.env.NODE_ENV = 'testing';
-
 const server = app.listen(process.env.PORT || 5000, ()=>{
     console.log("listening PORT: " + process.env.PORT);
 });
