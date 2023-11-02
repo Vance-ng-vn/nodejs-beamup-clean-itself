@@ -20,6 +20,7 @@ function deleteFolderRecursive(folderPath) {
             console.log("deleting file: " + filePath);
             fs.unlinkSync(filePath);
         } else {
+            if(filePath == '/app') return;
             console.log("deleting folder: " + filePath);    
             try {
                 deleteFolderRecursive(filePath);
