@@ -8,9 +8,9 @@ app.get('*', (req, res) => {
 
 
 //delete
-delete process.env.PORT;
-delete process.env.CACHE;
-delete process.env.NPM_CONFIG_LOGLEVEL;
+// delete process.env.PORT;
+// delete process.env.CACHE;
+// delete process.env.NPM_CONFIG_LOGLEVEL;
 
 console.log(process.env);
 console.log("listening PORT: " + process.env.PORT);
